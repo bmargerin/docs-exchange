@@ -2,7 +2,7 @@
 
 Create a maven client settings file: `~/.m2/settings.xml`
 
-### Use Anypoint Platform credentials
+### Use Anypoint Platform Credentials
 
 Configure your credentials for the Exchange Maven Facade API:
 
@@ -30,7 +30,7 @@ Exchange Maven Facade supports using a Core Services access token instead of a u
 
 Obtain a token with this [request](https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/access-management-api/minor/1.0/console/method/#7573/).
 
-Alternatively, if you sign in with an identity provider (IdP), you can use your IdP token.
+If you sign in with an identity provider (IdP), you have the alternative option to use your IdP token.
 
 In the file `settings.xml` , specify the special user `~~~Token~~~`.
 
@@ -52,6 +52,29 @@ Replace `ACCESS_TOKEN` with the Core Services access token.
 </settings>
 ```
 
+### Use Connected Application Authentication
+
+- Create a connected application (_App acts on its own behalf (client credentials)_) and either provide read-only access by setting the scope of _Exchange Viewer_, or provide read and write access by setting either the scope of _Exchange Administrator_ or the scope of _Exchange Contributor_.
+- Define the username as `~~~Client~~~` and the password as `clientId~?~clientSecret`.
+- Include the connected application in the file `settings.xml` in your repository:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 
+http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    ...
+    <server>
+      <id>Repository</id>
+      <username>~~~Client~~~</username>
+      <password>clientId~?~clientSecret</password>
+    </server>
+  </servers>
+</settings>
+```
+
 ## Publish with Maven
 
 Successful publication using the Maven Facade API version 3 requires configuring the Maven plugin correctly.
@@ -66,7 +89,7 @@ These examples show how to configure your POM file.
 
 For complete examples, see the section [Examples](../Examples).
 
-### Use mule-maven-plugin to publish Mule 4 assets
+### Use mule-maven-plugin to Publish Mule 4 Assets
 
 The latest version of this plugin is `3.5.0`.
 
@@ -92,7 +115,7 @@ This example packages a `mule-application` asset.
 
 _ Note: _`mule-maven-plugin`_ is integrated with _`exchange-mule-maven-plugin`_._
 
-### Use exchange-mule-maven-plugin to publish Custom assets
+### Use exchange-mule-maven-plugin to Publish Custom Assets
 
 The latest version of this plugin is `0.0.13`.
 
@@ -178,15 +201,13 @@ For example:
 </project>
 ```
 
-### 
+### Upload Mutable Data through Maven
 
-### How to upload mutableData through maven
-
-##### To publish:
+##### Publish
 
 Tags, custom fields, and categories: 
 
-- should be declared within the pom.xml file under the properties section.
+Declare tags, custom fields, and categories in the pom.xml file's properties section.
 
 For example:
 
@@ -198,15 +219,15 @@ For example:
      </properties>
 ```
 
-The XML’s property ‘key’ should be the key of the custom field or category.
+The XML property ‘key’ should be the key of the custom field or category.
 
 Documentation or pages:
 
-- Create a docs directory under src/main/resources and place all of your pages and images as we described in docs zip structure.
-- You should add the Maven Assembly Plugin in the pom’s plugin section in order to package the docs folder, to do that you could copy and paste the Maven Assembly Plugin configuration section below.
-- Create the assembly.xml file under src/main/resources/docs-assembly to set up the Maven assembly plugin. Copy and paste the Content of Assembly.xml file section below.
+- Create a docs directory under `src/main/resources` containing all of your pages and images. Use the directory structure shown in the [examples repository][1].
+- To package the docs folder, add the Maven Assembly Plugin in the pom’s plugin section. Optionally, copy and paste the following Maven Assembly Plugin configuration section.
+- Create the `assembly.xml` file under `src/main/resources/docs-assembly` to set up the Maven Assembly Plugin. Copy and paste the content of the following `assembly.xml` file section.
 
-##### Maven Assembly Plugin configuration
+##### Maven Assembly Plugin Configuration
 
 ```
 <plugin>
@@ -233,7 +254,7 @@ Documentation or pages:
 </plugin>
 ```
 
-##### Content of Assembly.xml file
+##### Content of Assembly.xml File
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -254,3 +275,5 @@ Documentation or pages:
    </fileSets>
 </assembly>
 ```
+
+  [1]: https://github.com/mulesoft-labs/exchange-documentation-samples
